@@ -1,0 +1,53 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  /* Pink and white gradient background */
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ffe4ef 0%, #ffb6c1 40%, #fff 100%);
+}
+
+#app {
+  background: rgba(255, 255, 255, 0.85);
+  max-width: 660px;
+  margin: 44px auto;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(214,51,132,0.08);
+  text-align: center;
+}
+
+h1, h2, h3 {
+  color: #d63384;
+  font-family: 'Brush Script MT', cursive, 'Segoe UI', sans-serif;
+}
+
+input[type="text"] {
+  padding: 10px;
+  border: 1px solid #d63384;
+  border-radius: 6px;
+  font-size: 1.1em;
+  margin-bottom: 16px;
+}
+
+button {
+  background: linear-gradient(90deg, #d63384 0%, #ffb6c1 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 24px;
+  font-size: 1em;
+  margin: 8px 0;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(214,51,132,0.08);
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: linear-gradient(90deg, #ffb6c1 0%, #d63384 100%);
+}
+
+#result {
+  margin-top: 16px;
+  font-size: 1.3em;
+  color: #d63384;
+}
