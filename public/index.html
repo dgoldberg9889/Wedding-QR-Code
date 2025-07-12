@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome to Our Wedding!</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <h1>Welcome!</h1>
+    <!-- QR Code -->
+    <canvas id="qr"></canvas>
+    <!-- Video Player -->
+    <div id="videoSection" style="display:none;">
+      <div id="videoContainer"></div>
+      <div id="nameEntry" style="display:none;">
+        <h2>Find Your Table</h2>
+        <input type="text" id="guestName" placeholder="Enter your name"/>
+        <button onclick="findTable()">Submit</button>
+        <div id="result"></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // 1. Generate QR code for current URL
+    const qr = new QRious({
+      element: document.getElementById('qr'),
+      value: window.location.href,
+      size: 200
+    });
+
+    // 2. Randomly pick a YouTube video for the greeting
+    const videos = [
+      "https://www.youtube.com/embed/YyqBTHk6pBk"
+      // Add more YouTube embed URLs for more videos
+    ];
+    function pickRandomVideo() {
+      const vid = videos[Math.floor(Math.random() * videos.length)];
+      document.getElementById('videoContainer').innerHTML = `
+        <iframe id="weddingVideo" width="600" height="338" src="${vid}?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <div id="videoEndButton" style="margin-top:16px;">
+          <button onclick="showNameEntry()">Continue</button>
+          <p style="font-size:smaller;">After watching the video, click continue.</p>
+        </div>
+      `;
+    }
+
+    // Show video section after QR shown
+    setTimeout(() => {
+      document.getElementById('videoSection').style.display = 'block';
+      pickRandomVideo();
+    }, 1000);
+
+    // 3. Show name entry after "Continue" button is clicked
+    function showNameEntry() {
+      document.getElementById('nameEntry').style.display = 'block';
+      document.getElementById('videoEndButton').style.display = 'none';
+    }
+
+    // 4. Lookup guest table via backend
+    function findTable() {
+      const name = document.getElementById('guestName').value.trim();
+      fetch('/api/lookup', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({name})
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.table) {
+          document.getElementById('result').innerHTML = `<h3>Your table number is: ${data.table}</h3>`;
+        } else {
+          document.getElementById('result').innerHTML = `<h3>Name not found. Please check with the ushers.</h3>`;
+        }
+      });
+    }
+  </script>
+</body>
+</html>
