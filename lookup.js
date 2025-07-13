@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 // Load guest-to-table mapping
-const guests = JSON.parse(fs.readFileSync(path.join(__dirname, '../src/guests.json'), 'utf-8'));
+const guests = JSON.parse(fs.readFileSync('guests.json'));
 
 app.post('/api/lookup', (req, res) => {
   const name = req.body.name;
